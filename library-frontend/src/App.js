@@ -1,8 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import WelcomePage from './pages/WelcomePage';
-import BookPage from './pages/BookPage';
-
+import BooksPage from './pages/BooksPage'
 
 const App = () => {
   return (
@@ -21,7 +20,7 @@ const App = () => {
 
         <Routes>
           <Route path="/" element={<WelcomePage />} />
-          <Route path="/mybooks" element={<BookPage />} />
+          <Route path="/books" element={<BooksPage />} />
         </Routes>
       </div>
     </Router>
