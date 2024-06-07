@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 
 const AddBookForm = ({ onAdd }) => {
-  const [newBook, setNewBook] = useState({
-    title: '',
-    author: '',
-    genre: '',
-    published_date: '', // Include published_date in newBook state
-  });
+  const [newBook, setNewBook] = useState({ title: '', author: '', genre: '', published_date: '' });
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -19,11 +16,11 @@ const AddBookForm = ({ onAdd }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission
     setLoading(true);
     try {
       const response = await axios.post(
-        '/api/books/',
+        'http://127.0.0.1:8000/api/books/', // Ensure you use the correct API endpoint
         newBook, // Send newBook directly as request data
         {
           headers: {
@@ -36,7 +33,7 @@ const AddBookForm = ({ onAdd }) => {
         title: '',
         author: '',
         genre: '',
-        published_date: '', // Reset published_date after successful submission
+        published_date: '',
       });
     } catch (error) {
       console.error('Error adding book:', error);
@@ -50,7 +47,7 @@ const AddBookForm = ({ onAdd }) => {
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
-            Title
+            Название
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -65,7 +62,7 @@ const AddBookForm = ({ onAdd }) => {
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="author">
-            Author
+            Автор
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -80,7 +77,7 @@ const AddBookForm = ({ onAdd }) => {
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="genre">
-            Genre
+            Жанр
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -95,7 +92,7 @@ const AddBookForm = ({ onAdd }) => {
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="publishedDate">
-            Published Date
+            Дата Публикации
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -114,8 +111,9 @@ const AddBookForm = ({ onAdd }) => {
             type="submit"
             disabled={loading}
           >
-            {loading ? 'Adding...' : 'Add Book'}
+            {loading ? 'Adding...' : 'Добавить книгу'}
           </button>
+          <Link to="/books" className="text-sm text-blue-500 hover:text-blue-700">Вернуться к списку книг</Link>
         </div>
       </form>
     </div>
