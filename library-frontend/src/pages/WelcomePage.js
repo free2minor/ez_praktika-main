@@ -1,4 +1,5 @@
 import React from 'react';
+import 'C:\\ez_praktika-main\\library-frontend\\src\\index.css'; // Подключите файл стилей
 
 const WelcomePage = () => {
   return (

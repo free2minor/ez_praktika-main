@@ -3,9 +3,39 @@
 @import 'tailwindcss/utilities';
 
 
-.fade-in {
-  animation: fadeIn 3s ease-in-out;
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
+.animate-fade-in {
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+}
+
+.full-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: linear-gradient(to right, #4c51bf, #4299e1, #38b2ac);
+}
+
 
 @keyframes fadeIn {
   0% { opacity: 0; }
