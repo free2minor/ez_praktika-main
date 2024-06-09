@@ -2,6 +2,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+/* Здесь идет ваш код стилей */
 
 @keyframes fadeIn {
   0% {
@@ -36,25 +37,14 @@ html, body {
   background: linear-gradient(to right, #4c51bf, #4299e1, #38b2ac);
 }
 
-
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
-}
-
-.fade-in-text {
-  animation: fadeIn 1s ease-in-out;
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .bg-animate {
   background: linear-gradient(270deg, #1a2a6c, #2e86de, #00a8ff);
   background-size: 600% 600%;
   animation: gradientAnimation 16s ease infinite;
-}
-
-@keyframes gradientAnimation {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }

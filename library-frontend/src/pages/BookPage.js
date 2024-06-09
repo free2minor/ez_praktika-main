@@ -7,6 +7,7 @@ const BookPage = () => {
   const [loading, setLoading] = useState(true);
   const [filterBy, setFilterBy] = useState('');
   const [filterValue, setFilterValue] = useState('');
+  const [editMenuId, setEditMenuId] = useState(null);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -43,6 +44,12 @@ const BookPage = () => {
     });
   };
 
+  const handleEditBook = (id) => {
+    // Здесь можно реализовать логику для редактирования книги
+    const editedBook = books.find(book => book.id === id);
+    console.log('Editing book:', editedBook);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-600 via-blue-500 to-teal-400 flex flex-col items-center p-4">
       <h1 className="text-xl font-bold mb-8 text-white">Список доступных книг</h1>
@@ -56,7 +63,7 @@ const BookPage = () => {
             onChange={handleFilterChange}
             style={{ width: '145px' }}
           >
-            <option value="">Выберите</option>
+            <option value=""> </option>
             <option value="genre">Жанру</option>
             <option value="author">Автору</option>
             <option value="title">Названию</option>
@@ -80,9 +87,39 @@ const BookPage = () => {
           {getFilteredBooks().map((book) => (
             <div
               key={book.id}
-              className="bg-white shadow-md rounded p-4 mb-4 mx-2 sm:mx-4"
+              className="bg-white shadow-md rounded p-4 mb-4 mx-2 sm:mx-4 relative"
               style={{ minWidth: '260px', maxWidth: '300px' }}
             >
+              {/* Кнопка редактирования книги */}
+              <div className="absolute top-0 right-0">
+                <button
+                  className="text-gray-600 hover:text-gray-900"
+                  onClick={() => setEditMenuId(editMenuId === book.id ? null : book.id)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                    />
+                  </svg>
+                </button>
+                {/* Показываем меню редактирования только для выбранной книги */}
+                {editMenuId === book.id && (
+                  <div className="absolute right-0 top-10 bg-white p-2 rounded shadow-md">
+                    <button
+                      className="text-gray-600 hover:text-gray-900"
+                      onClick={() => handleEditBook(book.id)}
+                    >
+                      Редактировать книгу
+                    </button>
+                  </div>
+                )}
+              </div>
               <h2 className="text-lg font-bold mb-2">{book.title}</h2>
               <p className="text-sm text-gray-700 mb-2">Автор: {book.author}</p>
               <p className="text-sm text-gray-700 mb-2">Жанр: {book.genre}</p>
