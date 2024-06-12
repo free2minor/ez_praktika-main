@@ -2,7 +2,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-/* Здесь идет ваш код стилей */
 
 @keyframes fadeIn {
   0% {

@@ -3,12 +3,12 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import WelcomePage from './pages/WelcomePage';
 import BookPage from './pages/BookPage';
 import AddBookForm from './components/AddBookForm';
-import './index.css'; // Импортируем файл стилей
+import './index.css';
 
 const App = () => {
   return (
     <Router>
-      <div className="text-center bg-animate"> {/* Добавляем класс для анимированного фона */}
+      <div className="text-center bg-animate">
         <nav className="p-4 bg-blue-500 text-white">
           <ul className="flex justify-center space-x-4">
             <li>

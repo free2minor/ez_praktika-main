@@ -8,6 +8,7 @@ const BookPage = () => {
   const [filterBy, setFilterBy] = useState('');
   const [filterValue, setFilterValue] = useState('');
   const [editMenuId, setEditMenuId] = useState(null);
+  const [editBookData, setEditBookData] = useState({ title: '', author: '', genre: '', published_date: '' });
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -44,10 +45,30 @@ const BookPage = () => {
     });
   };
 
-  const handleEditBook = (id) => {
-    // Здесь можно реализовать логику для редактирования книги
-    const editedBook = books.find(book => book.id === id);
-    console.log('Editing book:', editedBook);
+  const handleEditBook = (book) => {
+    setEditBookData(book);
+    setEditMenuId(book.id);
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditBookData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(`http://127.0.0.1:8000/api/books/${editBookData.id}/`, editBookData);
+      setBooks((prevBooks) =>
+        prevBooks.map((book) => (book.id === editBookData.id ? editBookData : book))
+      );
+      setEditMenuId(null);
+    } catch (error) {
+      console.error('Error updating book:', error);
+    }
   };
 
   return (
@@ -90,11 +111,10 @@ const BookPage = () => {
               className="bg-white shadow-md rounded p-4 mb-4 mx-2 sm:mx-4 relative"
               style={{ minWidth: '260px', maxWidth: '300px' }}
             >
-              {/* Кнопка редактирования книги */}
               <div className="absolute top-0 right-0">
                 <button
                   className="text-gray-600 hover:text-gray-900"
-                  onClick={() => setEditMenuId(editMenuId === book.id ? null : book.id)}
+                  onClick={() => handleEditBook(book)}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -108,17 +128,6 @@ const BookPage = () => {
                     />
                   </svg>
                 </button>
-                {/* Показываем меню редактирования только для выбранной книги */}
-                {editMenuId === book.id && (
-                  <div className="absolute right-0 top-10 bg-white p-2 rounded shadow-md">
-                    <button
-                      className="text-gray-600 hover:text-gray-900"
-                      onClick={() => handleEditBook(book.id)}
-                    >
-                      Редактировать книгу
-                    </button>
-                  </div>
-                )}
               </div>
               <h2 className="text-lg font-bold mb-2">{book.title}</h2>
               <p className="text-sm text-gray-700 mb-2">Автор: {book.author}</p>
@@ -127,6 +136,58 @@ const BookPage = () => {
             </div>
           ))}
         </div>
+      )}
+      {editMenuId && (
+        <form onSubmit={handleEditSubmit} className="bg-white shadow-md rounded p-4 mb-4 mx-2 sm:mx-4 relative">
+          <h2 className="text-lg font-bold mb-2">Редактировать книгу</h2>
+          <label className="block text-gray-700 text-sm font-bold mb-2">Название:</label>
+          <input
+            className="bg-white border border-gray-400 rounded py-2 px-4 mb-2 focus:outline-none focus:border-blue-500 text-gray-700"
+            type="text"
+            name="title"
+            value={editBookData.title}
+            onChange={handleEditChange}
+          />
+          <label className="block text-gray-700 text-sm font-bold mb-2">Автор:</label>
+          <input
+            className="bg-white border border-gray-400 rounded py-2 px-4 mb-2 focus:outline-none focus:border-blue-500 text-gray-700"
+            type="text"
+            name="author"
+            value={editBookData.author}
+            onChange={handleEditChange}
+          />
+          <label className="block text-gray-700 text-sm font-bold mb-2">Жанр:</label>
+          <input
+            className="bg-white border border-gray-400 rounded py-2 px-4 mb-2 focus:outline-none focus:border-blue-500 text-gray-700"
+            type="text"
+            name="genre"
+            value={editBookData.genre}
+            onChange={handleEditChange}
+          />
+          <label className="block text-gray-700 text-sm font-bold mb-2">Дата публикации:</label>
+          <input
+            className="bg-white border border-gray-400 rounded py-2 px-4 mb-2 focus:outline-none focus:border-blue-500 text-gray-700"
+            type="date"
+            name="published_date"
+            value={editBookData.published_date}
+            onChange={handleEditChange}
+          />
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() => setEditMenuId(null)}
+              className="mr-4 bg-gray-300 text-gray-700 hover:bg-gray-400 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Отмена
+            </button>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Сохранить
+            </button>
+          </div>
+        </form>
       )}
       <Link
         to="/addbooks"
